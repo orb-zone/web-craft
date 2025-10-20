@@ -3,8 +3,10 @@ import { DottedJson } from "./dotted-json.js";
 export { DottedJson } from "./dotted-json.js";
 export { ExpressionEvaluator, createExpressionEvaluator } from "./expression-evaluator.js";
 export { VariantResolver } from "./variant-resolver.js";
+export { FileLoader } from "./loaders/file.js";
 
 export type * from "./types.js";
+export type * from "./loaders/file.js";
 
 export {
   resolvePronoun,
