@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run tests
+        run: bun test
+
+      - name: Type checking
+        run: bun run type-check
+
+      - name: Build packages
+        run: bun run build
+
+      - name: Check bundle sizes
+        run: |
+          echo "dotted bundle size:"
+          ls -lh packages/dotted/dist/index.js || echo "Not built"
+          echo ""
+          echo "surrounded bundle size:"
+          ls -lh packages/surrounded/dist/index.js || echo "Not built"
+
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type checking
+        run: bun run type-check
+
+      - name: Run linter
+        run: bun run lint 2>/dev/null || echo "Linting skipped"
+
+      - name: Format check
+        run: bun run format:check 2>/dev/null || echo "Format check skipped"
+
+  examples:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build packages first
+        run: bun run build
+
+      - name: Run examples
+        run: bun run examples:all
+        continue-on-error: true

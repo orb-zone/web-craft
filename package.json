@@ -10,15 +10,21 @@
   "scripts": {
     "build": "bun run --filter '*' build",
     "test": "bun test",
-    "test:unit": "bun test test/unit",
-    "test:integration": "bun test test/integration",
+    "test:unit": "bun test packages/*/test/unit",
+    "test:integration": "bun test packages/*/test/integration",
     "test:watch": "bun test --watch",
+    "type-check": "bun run --filter '*' typecheck",
     "lint": "bun run --filter '*' lint",
-    "typecheck": "bun run --filter '*' typecheck",
     "format": "bun run --filter '*' format",
+    "format:check": "bun run --filter '*' format:check",
+    "examples:basic": "bun examples/basic-usage.ts",
+    "examples:variants": "bun examples/variants-i18n.ts",
+    "examples:fileloader": "bun examples/file-loader-i18n.ts",
+    "examples:all": "bun examples/basic-usage.ts && bun examples/variants-i18n.ts && bun examples/file-loader-i18n.ts",
     "changeset:add": "bunx @changesets/cli add",
     "changeset:version": "bunx @changesets/cli version",
-    "changeset:publish": "bunx @changesets/cli publish"
+    "changeset:publish": "bunx @changesets/cli publish",
+    "clean": "rm -rf packages/*/dist packages/*/.turbo packages/*/node_modules .turbo node_modules"
   },
   "devDependencies": {
     "@types/bun": "latest",
