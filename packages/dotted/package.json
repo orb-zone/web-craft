@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "build": "bun run build:esbuild && bun run typecheck",
-    "build:esbuild": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral && tsc --emitDeclarationOnly --outDir dist",
+    "build:esbuild": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral && esbuild src/plugins/zod.ts --bundle --outfile=dist/plugins/zod.js --format=esm --platform=neutral && tsc --emitDeclarationOnly --outDir dist",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src test --fix",
     "test": "bun test",
