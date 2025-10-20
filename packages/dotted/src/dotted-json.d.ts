@@ -7,10 +7,7 @@ export declare class DottedJson {
     private cache;
     private maxEvaluationDepth;
     private availablePaths;
-    constructor(data?: Record<string, any>, options?: DottedOptions & {
-        variant?: string | string[];
-        default?: any;
-    });
+    constructor(data?: Record<string, any>, options?: DottedOptions);
     private mergeData;
     private updateAvailablePaths;
     private resolveVariant;
