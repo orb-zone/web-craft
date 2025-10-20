@@ -69,6 +69,7 @@ const data = dotted(obj, options);
 #### Breaking Changes
 
 **NONE** for the core API. v2.0 maintains backward compatibility for:
+
 - `.get()`, `.set()`, `.delete()`, `.has()`
 - `.resolve()`, `.allKeys()`
 - Expression evaluation
@@ -188,17 +189,20 @@ ExpressionEvaluationError: Failed to evaluate '${invalid}' at path 'user.name'
 ## Migration Checklist
 
 ### Step 1: Update Dependencies
+
 - [ ] Install `@orb-zone/dotted`
 - [ ] Remove `@orb-zone/dotted-json`
 - [ ] Run `npm/yarn/bun install`
 
 ### Step 2: Update Imports
+
 - [ ] Find: `from "@orb-zone/dotted-json"`
 - [ ] Replace: `from "@orb-zone/dotted"`
 - [ ] Check for plugin imports (zod)
 - [ ] Verify no `@orb-zone/dotted-json` imports remain
 
 ### Step 3: Test Application
+
 - [ ] Run unit tests
 - [ ] Check data loading functionality
 - [ ] Verify variant resolution
@@ -206,12 +210,14 @@ ExpressionEvaluationError: Failed to evaluate '${invalid}' at path 'user.name'
 - [ ] Check error handling
 
 ### Step 4: Update Configurations
+
 - [ ] Review DottedJson initialization
 - [ ] Check resolver registrations
 - [ ] Verify FileLoader usage
 - [ ] Update any Zod schemas
 
 ### Step 5: Deploy
+
 - [ ] Merge PR
 - [ ] Deploy to staging
 - [ ] Verify in production
@@ -224,6 +230,7 @@ ExpressionEvaluationError: Failed to evaluate '${invalid}' at path 'user.name'
 **Cause**: Old package name still in imports
 
 **Solution**:
+
 ```bash
 # Find all references
 grep -r "dotted-json" src/
@@ -255,6 +262,7 @@ import { withZod } from "@orb-zone/dotted/dist/plugins/zod.js";
 **Cause**: TypeScript stricter in v2.0
 
 **Solution**:
+
 ```typescript
 // v1.x - Loose types
 const value: any = data.get("path");

@@ -49,7 +49,7 @@
     "test:coverage": "bun test --coverage"
   },
   "dependencies": {
-    "@orb-zone/dotted": "workspace:^2.0.0"
+    "@orb-zone/dotted": "workspace:*"
   },
   "peerDependencies": {
     "surrealdb": "^1.0.0 || ^2.0.0",

@@ -16,6 +16,7 @@
 Core JSON library with dotted path navigation and dynamic expression evaluation.
 
 **Features**:
+
 - Navigate JSON with dot notation
 - Evaluate template expressions (`${path.to.value}`)
 - Multi-language support (variants)
@@ -41,6 +42,7 @@ config.set("app.theme", "light");
 SurrealDB integration layer with Vue 3 composables for real-time applications.
 
 **Features**:
+
 - Query and mutate SurrealDB data
 - Vue 3 reactive composables
 - Pinia integration ready
@@ -196,23 +198,27 @@ web-craft/
 ### Real-World Use Cases
 
 1. **Configuration Management**
+
    ```typescript
    const env = process.env.NODE_ENV || "development";
    const config = dotted(appConfig, { variant: env });
    ```
 
 2. **i18n/Pluralization**
+
    ```typescript
    const locale = "es";
    const messages = dotted(translations, { variant: locale });
    ```
 
 3. **Dynamic Permissions**
+
    ```typescript
    const userPerms = data.resolve("permissions.${user.role}");
    ```
 
 4. **Expression Evaluation**
+
    ```typescript
    const discount = data.resolve("pricing.discounts.${user.tier}");
    ```
@@ -255,6 +261,7 @@ bun run build
 ### Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+
 - Development workflow
 - Testing requirements (TDD)
 - Code style guidelines
@@ -431,5 +438,5 @@ Built by the @orb-zone team. Part of the Surreal ecosystem.
 
 **Latest**: v0.0.0 (Clean Slate)  
 **Inspired By**: @orb-zone/dotted-json v1.x  
-**Repository**: https://github.com/orb-zone/web-craft  
+**Repository**: <https://github.com/orb-zone/web-craft>  
 **License**: Apache 2.0
