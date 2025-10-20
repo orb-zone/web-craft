@@ -1,6 +1,6 @@
-# Migration Guide: @orb-zone/dotted-json v1 → @orb-zone/dotted v2
+# Migration Guide: @orb-zone/dotted-json v1 → @orb-zone/dotted v0.1.0
 
-This guide covers upgrading from `@orb-zone/dotted-json@1.x` to `@orb-zone/dotted@2.0.0`.
+This guide covers upgrading from `@orb-zone/dotted-json@1.x` to `@orb-zone/dotted@0.1.0`.
 
 ## Quick Start
 
@@ -32,7 +32,7 @@ import { DottedJson } from "@orb-zone/dotted-json";
 import { withZod } from "@orb-zone/dotted-json/zod";
 import { FileLoader } from "@orb-zone/dotted-json";
 
-// ✅ v2.0+ (NEW)
+// ✅ v0.1.0+ (NEW)
 import { DottedJson, dotted } from "@orb-zone/dotted";
 import { withZod } from "@orb-zone/dotted/zod";
 import { FileLoader } from "@orb-zone/dotted";
@@ -395,7 +395,7 @@ import { DottedJson } from "@orb-zone/dotted-json";
 
 ---
 
-**Updated**: 2025-10-20  
-**Version**: v2.0.0  
-**Previous**: v1.x  
+**Updated**: 2025-10-20
+**Version**: v0.1.0
+**Inspired By**: v1.x
 **Part of**: @orb-zone/web-craft

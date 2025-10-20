@@ -1,6 +1,6 @@
 {
   "name": "@orb-zone/surrounded",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "exports": {
     ".": "./dist/index.js",
     "./composables": "./dist/composables/index.js"

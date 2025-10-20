@@ -1,6 +1,6 @@
 {
   "name": "@orb-zone/surrounded",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "description": "SurrealDB integration framework with Vue 3 composables, built on @orb-zone/dotted",
   "license": "Apache-2.0",

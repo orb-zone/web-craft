@@ -7,11 +7,11 @@
 ![Bundle Size](https://img.shields.io/badge/surrounded-101KB-green)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
-**web-craft** is the v2.0 monorepo successor to @orb-zone/dotted-json. It provides high-performance JSON manipulation with expression evaluation, variant systems, and seamless SurrealDB integration.
+**web-craft** is a clean-slate monorepo inspired by @orb-zone/dotted-json. It provides high-performance JSON manipulation with expression evaluation, variant systems, and seamless SurrealDB integration.
 
 ## What's Inside
 
-### 🎯 @orb-zone/dotted (v2.0.0)
+### 🎯 @orb-zone/dotted (v0.0.0)
 
 Core JSON library with dotted path navigation and dynamic expression evaluation.
 
@@ -36,7 +36,7 @@ config.set("app.theme", "light");
 
 [→ @orb-zone/dotted docs](packages/dotted/README.md)
 
-### 🚀 @orb-zone/surrounded (v1.0.0)
+### 🚀 @orb-zone/surrounded (v0.0.0)
 
 SurrealDB integration layer with Vue 3 composables for real-time applications.
 
@@ -429,7 +429,7 @@ Built by the @orb-zone team. Part of the Surreal ecosystem.
 
 ---
 
-**Latest**: v2.0.0 (October 2025)  
-**Previous**: @orb-zone/dotted-json v1.x  
+**Latest**: v0.0.0 (Clean Slate)  
+**Inspired By**: @orb-zone/dotted-json v1.x  
 **Repository**: https://github.com/orb-zone/web-craft  
 **License**: Apache 2.0

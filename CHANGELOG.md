@@ -5,13 +5,13 @@ All notable changes to web-craft packages are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [2.0.0] - 2025-10-20
+## [0.1.0] - 2025-10-20
 
 ### Added
 
-#### @orb-zone/dotted@2.0.0
+#### @orb-zone/dotted@0.1.0
 
-- **Core library migration** from `@orb-zone/dotted-json@1.x`
+- **Core library** inspired by `@orb-zone/dotted-json@1.x`
   - Package renamed to `@orb-zone/dotted`
   - All core features preserved and enhanced
   - 30 KB bundle size (vs 25 KB v1, includes new features)
@@ -49,7 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - Three security modes: strict, permissive, allow-list
   - Automatic file caching
 
-#### @orb-zone/surrounded@1.0.0
+#### @orb-zone/surrounded@0.1.0
 
 - **SurrealDB integration**
   - Query execution with `useSurroundedQuery()`
@@ -252,9 +252,9 @@ See [MIGRATION.md](MIGRATION.md) for detailed upgrade guide.
 
 ---
 
-**Release Date**: October 20, 2025  
-**Version**: 2.0.0  
-**Status**: Stable, Production-Ready
+**Release Date**: October 20, 2025
+**Version**: 0.1.0
+**Status**: Initial Release, Development
 
 For more information:
 - Repository: https://github.com/orb-zone/web-craft
