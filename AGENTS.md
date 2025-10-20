@@ -1,492 +1,268 @@
-# Agent Guidelines for web-craft (Monorepo)
+# Agent Guidelines for dotted-json (jsön)
 
-**Project**: @orb-zone/web-craft  
-**Type**: Bun workspace monorepo  
-**Packages**: dotted (core), surrounded (framework)  
-**Status**: v2.0.0 (major release)
+## Overview
 
----
+This project uses a dual-layer agent system:
+- **Root-level agents** (this file) - General development guidelines and quick reference
+- **Specialist agents** (`.specify/agents/`) - Domain-specific expertise with deep constitutional alignment
 
-## Quick Reference
+## Quick Reference Commands
 
-### Development Commands
+### Development
+- **Build**: `bun run build`
+- **Lint**: `bun run lint` (ESLint with auto-fix)
+- **Typecheck**: `bun run typecheck`
+- **Test**: `bun test` (all tests)
+- **Single test**: `bun test path/to/test.test.ts`
+- **Unit tests**: `bun test test/unit`
+- **Integration tests**: `bun test test/integration`
+- **Watch tests**: `bun test --watch`
+- **Coverage**: `bun test --coverage`
 
-```bash
-# Root workspace
-bun install                    # Install all dependencies
-bun run build                  # Build all packages
-bun test                       # Run all tests
-bun run lint                   # Lint all packages
-bun run typecheck              # Type-check all packages
-bun run changeset:add          # Create changeset entry
+### Release Management
+- **Add changeset**: `bun run changeset:add`
+- **Version packages**: `bun run changeset:version`
+- **Release**: Automated via GitHub Actions (manual publish forbidden)
 
-# Per-package (from project root)
-cd packages/dotted
-bun test                       # Just dotted tests
-bun run build                  # Just dotted build
+### CLI Tools
+- **Translation**: `bun tools/translate/index.ts strings.jsön --to es --form formal`
+- **Type generation**: `bun tools/surql-to-ts/index.ts schema.surql`
 
-cd packages/surrounded
-bun test                       # Just surrounded tests
-```
+## Code Style & Standards
 
-### Project Structure
+### TypeScript Standards
+- **Indentation**: 2 spaces (EditorConfig)
+- **Strict mode**: Enabled, no implicit any
+- **Imports**: Use `.js` extensions for ES modules
+- **Naming**: camelCase for variables, PascalCase for types/interfaces
+- **Error handling**: Use explicit error types, avoid `any` (warned)
+- **Unused vars**: Prefix with `_` to ignore linting
+- **File structure**: Export types separately from implementations
+- **Comments**: JSDoc style for public APIs
 
-```
-packages/
-├── dotted/
-│   ├── src/                  # Core source
-│   ├── test/                 # Tests
-│   ├── tools/                # CLI tools (translate)
-│   ├── examples/             # Usage examples
-│   └── package.json
-└── surrounded/
-    ├── src/                  # Framework source
-    ├── test/                 # Tests
-    ├── tools/                # CLI tools (surql-to-ts)
-    ├── examples/             # Usage examples
-    └── package.json
-```
+### Constitutional Requirements
+- **Bundle limit**: Core library must stay under 20 kB minified
+- **Security**: Schemas must come from trusted sources (documented warnings required)
+- **TDD**: 100% test pass rate before merge (non-negotiable)
+- **Plugin architecture**: Clear boundaries, no core modifications
+- **Framework-agnostic**: Zero framework dependencies in core
 
-## About This Project
+### Naming Conventions
+- **JSöN files**: Use `.jsön` extension (lowercase)
+- **Plugin factories**: `with[Thing]` pattern (e.g., `withZod`, `withSurrealDB`)
+- **Hooks/composables**: `useDotted[Thing]` pattern
+- **SurrealDB fields**: `_type`, `_at`, `meta` (short, underscore prefix for system fields)
 
-### What is web-craft?
+## Testing Standards
 
-**web-craft** is a Bun workspace monorepo that represents the v2.x evolution of the @orb-zone project:
+### Test Organization
+- **Unit tests**: `test/unit/` - Fast, isolated, no external dependencies
+- **Integration tests**: `test/integration/` - Real dependencies, slower execution
+- **Fixtures**: `test/fixtures/` - Test data and schema files
+- **Test runner**: Bun test with built-in mocking support
 
-**v1.x (jsön)**: Single package `@orb-zone/dotted-json` with bundled SurrealDB integration
+### TDD Workflow
+1. **RED**: Write failing test first
+2. **GREEN**: Implement minimal code to pass
+3. **REFACTOR**: Improve code quality while maintaining test coverage
 
-**v2.x (web-craft)**: Multiple packages with clear separation:
-- `@orb-zone/dotted@2.0.0` - Core (renamed from dotted-json)
-- `@orb-zone/surrounded@1.0.0` - SurrealDB + Vue framework
+### Coverage Requirements
+- Core modules: > 95% coverage
+- Plugins: > 85% coverage
+- Integration tests: > 70% coverage
+- Performance regression tests for critical paths
 
-### Why the Split?
+## Specialist Agents System
 
-1. **Bundle size**: Users who only need JSON dotted paths don't pay for SurrealDB
-2. **Independent versioning**: Frameworks can evolve without changing core
-3. **Clear concerns**: Core stays focused, frameworks can experiment
-4. **Better DX**: Smaller, focused packages are easier to understand
+### Available Specialist Agents
 
-### Breaking Changes
+Located in `.specify/agents/` with domain expertise:
 
-This is a **v2.0.0 MAJOR** release with intentional breaking changes:
+#### Core Development
+- **`surrealdb-expert.md`** - SurrealDB integration, schema design, LIVE queries
+- **`architecture-specialist.md`** - Monorepo structure, build tooling, package boundaries
+- **`zod-integration-specialist.md`** - Schema validation, type inference, codegen
+- **`testing-specialist.md`** - TDD workflows, integration tests, contract testing
 
-✅ **New**:
-- Package renamed: `dotted-json` → `dotted`
-- Monorepo structure with multiple packages
-- Vue 3 composables in `surrounded`
-- Improved SurrealDB integration
+#### Specialized Domains
+- **`i18n-specialist.md`** - Variant systems, translation workflows, FileLoader patterns
+- **`performance-auditor.md`** - Bundle optimization, lazy loading, cache strategies
+- **`documentation-curator.md`** - README generation, API docs, migration guides
+- **`vue3-expert.md`** - Vue 3 composables, reactivity patterns, Pinia integration
 
-⚠️ **Requires migration**:
-- See [MIGRATION.md](./MIGRATION.md) for upgrade guide
-- Import paths change
-- API may be reorganized
+### Agent Usage Patterns
 
-## Package Reference
+#### When to Use Specialist Agents
 
-### @orb-zone/dotted (packages/dotted/)
+**Use specialist agents for:**
+- Complex features requiring domain expertise
+- Multi-file architectural changes
+- Performance optimization tasks
+- Integration with external systems
+- Documentation generation for complex APIs
 
-**Version**: v2.0.0 (core library, major release)  
-**Bundle limit**: 25 kB (constitutional)  
-**Dependencies**: `dot-prop`  
-**Peer deps**: `zod` (optional)
-
-**Public API**:
-- `DottedJson` class - Main entry point
-- Expression evaluation engine
-- Variant resolution system
-- i18n support
-- File loader (FileLoader)
-- Zod plugin (withZod)
-
-**Key files**:
-- `src/dotted-json.ts` - Core class
-- `src/expression-evaluator.ts` - Expression engine
-- `src/variant-resolver.ts` - Variant system
-- `src/plugins/zod.ts` - Zod validation
-
-**Tests**: 190+ unit + integration tests
-
-### @orb-zone/surrounded (packages/surrounded/)
-
-**Version**: v1.0.0 (new package, framework)  
-**Bundle limit**: 75 kB total with dotted (constitutional)  
-**Dependencies**: `@orb-zone/dotted@workspace:^2.0.0`  
-**Peer deps**: `surrealdb`, `vue`, `pinia`, `@pinia/colada`
-
-**Public API**:
-- `SurrealDBLoader` - Database loader
-- `useSurrounded` - Vue 3 composable
-- SurrealDB plugin (withSurrealDB)
-- Pinia integration (withPiniaColada)
-- LIVE query support
-
-**Key files**:
-- `src/loaders/surrealdb.ts` - SurrealDB loader
-- `src/plugins/surrealdb.ts` - SurrealDB plugin
-- `src/composables/` - Vue composables (NEW)
-- `src/types/storage.ts` - Type definitions
-
-**Tests**: 35+ unit + integration tests
-
-## Workspace Configuration
-
-### Bun Workspaces
-
-**Why Bun?**
-- Fast, native TypeScript support
-- Simple workspace configuration
-- Excellent monorepo performance
-- Better than npm/yarn for this scale
-
-**Configuration**: `bunfig.toml` + `package.json` workspaces field
-
-```json
-{
-  "workspaces": ["packages/*"]
-}
-```
-
-### Workspace Protocol
-
-**Internal dependencies** use `workspace:` protocol:
-
-```json
-{
-  "dependencies": {
-    "@orb-zone/dotted": "workspace:^2.0.0"
-  }
-}
-```
-
-Benefits:
-- Development: Direct source file linking
-- Production: Replaced with version number at publish time
-- No circular dependencies (dotted → surrounded, never reverse)
-
-### Shared Configuration
-
-**Inherited from root**:
-- `tsconfig.json` - Shared TypeScript config
-- `package.json` scripts (via --filter)
-- DevDependencies (TypeScript, ESLint, etc.)
-
-**Per-package overrides**:
-- `packages/dotted/package.json` - Dotted-specific deps
-- `packages/surrounded/package.json` - Surrounded-specific deps
-
-## Code Standards
-
-### Same as jsön (Inherited)
-
-This project inherits all standards from the v1 project:
-
-**TypeScript**:
-- 2-space indentation (EditorConfig)
-- Strict mode enabled
-- ESM with `.js` extensions
-- camelCase variables, PascalCase types
-- No implicit `any`
-
-**Testing**:
-- 100% test pass rate (non-negotiable)
-- TDD workflow: RED → GREEN → REFACTOR
-- Unit tests in `test/unit/`
-- Integration tests in `test/integration/`
-
-**Documentation**:
-- JSDoc for public APIs
-- README.md per package
-- Migration guide (v1→v2)
-- Constitutional alignment
-
-### Monorepo-Specific
-
-**Package boundaries**:
-- Core (`dotted`) has no SurrealDB dependencies
-- Framework (`surrounded`) depends on core only
-- No circular dependencies allowed
-- Independent test suites per package
-
-**Bundle management**:
-- Monitor per-package size
-- Tree-shaking verification
-- Separate build outputs per package
-
-## Specialist Agents
-
-### Available Specialists
-
-Inherited from jsön (`.specify/agents/`):
-
-1. **architecture-specialist** - Monorepo structure, boundaries, build optimization
-2. **surrealdb-expert** - SurrealDB schemas, loaders, LIVE queries
-3. **zod-integration-specialist** - Schema validation, type inference
-4. **testing-specialist** - TDD workflows, integration testing
-5. **i18n-specialist** - Variant systems, translation, FileLoader
-6. **performance-auditor** - Bundle size, optimization, caching
-7. **documentation-curator** - API docs, migration guides, READMEs
-
-### When to Use Specialist Agents
-
-**Use for**:
-- Complex monorepo decisions (→ architecture-specialist)
-- SurrealDB integration design (→ surrealdb-expert)
-- Performance optimization (→ performance-auditor)
-- Testing strategy (→ testing-specialist)
-- Bundle size issues (→ performance-auditor)
-
-**Skip for**:
-- Simple bug fixes
+**Skip specialist agents for:**
+- Simple bug fixes (1-2 files)
 - Obvious refactoring
-- Minor doc updates
-- Single-file changes
+- Documentation tweaks
+- Test additions to existing suites
 
-### Invocation Pattern
+#### Agent Invocation Examples
 
-```bash
-/task "Optimize bundle size" \
-  --agent performance-auditor \
-  --context "web-craft monorepo, measure per-package"
+```typescript
+// Using Task tool with specialist agent
+Task({
+  subagent_type: "surrealdb-expert",
+  description: "Implement LIVE query subscriptions",
+  prompt: "Design real-time LIVE SELECT subscription system with auto-cache invalidation..."
+});
+
+// Architecture planning
+Task({
+  subagent_type: "architecture-specialist", 
+  description: "Plan monorepo migration",
+  prompt: "Create detailed migration plan from single package to monorepo workspace..."
+});
+
+// Testing strategy
+Task({
+  subagent_type: "testing-specialist",
+  description: "Design integration test suite",
+  prompt: "Create comprehensive integration tests for SurrealDBLoader with real database..."
+});
 ```
+
+### Agent Constitutional Alignment
+
+All specialist agents MUST:
+- Align with core constitutional principles (see `.specify/memory/constitution.md`)
+- Provide domain-specific implementation guidance
+- Include best practices and common pitfalls
+- Reference relevant design documents
+- Maintain clear boundaries from core library
 
 ## Development Workflow
 
-### Adding a Feature
+### Feature Development Process
 
-1. **Plan**: Determine which package (dotted or surrounded)?
-2. **TDD**: Write test first, implement, refactor
-3. **Build**: `bun run build` - verify output
-4. **Validate**: Run `bun run lint` + `bun run typecheck`
-5. **Changeset**: `bun run changeset:add` - document changes
-6. **Commit**: Follow conventional commits
-
-### Testing Strategy
-
-**Unit tests** (`test/unit/`):
-- Fast, isolated, no external deps
-- Run with `bun test test/unit`
-
-**Integration tests** (`test/integration/`):
-- Real dependencies (databases, etc.)
-- Run with `bun test test/integration`
-
-**Workspace tests**:
-- Run all: `bun test` (from root)
-- Per-package: `cd packages/dotted && bun test`
-
-### Build & Validation
-
-```bash
-# Full validation
-bun run build              # Build all packages
-bun test                   # Run all tests
-bun run lint              # Lint everything
-bun run typecheck         # TypeScript check
-
-# Per-package
-cd packages/dotted
-bun run build             # Build dotted only
-bun test                  # Test dotted only
-bun run lint              # Lint dotted only
-```
-
-### Release Process
-
-1. **Create changesets** (during development):
+1. **Planning Phase** (Complex features only)
    ```bash
-   bun run changeset:add
+   /specify [feature description]    # Create specification
+   /plan                            # Generate implementation plan
+   /tasks                           # Break down into tasks
    ```
 
-2. **Version packages** (when ready):
+2. **Implementation Phase**
    ```bash
-   bun run changeset:version
+   /implement                       # Execute all tasks
+   bun run changeset:add            # Document changes
    ```
 
-3. **Publish** (automated via GitHub Actions):
-   - GitHub Action triggers on version commit
-   - Runs final tests
-   - Publishes to JSR and npm
+3. **Quality Assurance**
+   ```bash
+   bun test                         # Verify all tests pass
+   bun run lint                     # Check code style
+   bun run typecheck                # Verify TypeScript
+   bun run build                    # Check bundle size
+   ```
 
-## Migration Context
+4. **Release**
+   ```bash
+   git commit -m "feat: description"
+   gh pr create                     # Create pull request
+   # Automated: Version Packages PR → Publish to JSR
+   ```
 
-### From jsön (v1.x) to web-craft (v2.x)
+### Branch Protection & CI/CD
 
-**What moved**:
-- Core dotted-json engine → `packages/dotted/`
-- SurrealDB code → `packages/surrounded/`
-- All tests (WITH their code)
-- Specialist agents (`.specify/agents/`)
+- **Direct pushes to main**: Forbidden (Lefthook + GitHub protection)
+- **Pre-push checks**: Lint, typecheck, tests, build (automated)
+- **PR requirements**: All CI checks must pass
+- **Emergency releases**: Hotfix branches allowed with fast-track review
 
-**What stayed in jsön**:
-- v1.x codebase (reference)
-- v1.x examples (marked deprecated)
-- Old design docs (marked "for reference")
+## Bundle Size Management
 
-**What's new**:
-- Bun workspace
-- Vue 3 composables in surrounded
-- Monorepo-specific tooling
-- Independent package versioning
+### Current Constraints
+- **Core library**: < 20 kB minified (constitutional limit)
+- **Current size**: 18.20 kB (91% of limit)
+- **Monitoring**: Automated in CI/CD pipeline
 
-**Breaking changes**:
-- Package name: `dotted-json` → `dotted`
-- Import paths updated
-- v2.0.0 major release
+### Optimization Strategies
+- Tree-shaking friendly exports
+- Lazy loading for optional features
+- Framework code in separate packages
+- Regular bundle audits
 
-### Migration Guide
+## Security Requirements
 
-See [MIGRATION.md](./MIGRATION.md) for detailed v1→v2 upgrade steps.
+### Expression Evaluation Trust Model
+- **Trusted input only**: Schemas from application code, not user input
+- **Resolver validation**: Custom resolvers must validate inputs/outputs
+- **Error sanitization**: No sensitive data in error messages
+- **Documentation**: Security warnings in all public APIs
 
-## Constitutional Alignment
-
-All development **must** comply with core principles:
-
-### Bundle Size Constraints
-
-- `@orb-zone/dotted`: < 25 kB (core limit)
-- `@orb-zone/surrounded`: +30-50 kB (75 kB total with dotted)
-
-**Monitoring**: Automated CI checks, measured per-package
-
-### Security Model
-
-- Schemas from **trusted sources only** (application code)
-- No user input in expressions
-- Resolver validation required
+### Audit Requirements
 - Monthly dependency audits
-- No sensitive data in error messages
+- Security review for expression evaluator changes
+- Breaking security changes flagged in CHANGELOG
 
-### TDD Requirement
+## Documentation Standards
 
-- 100% test pass rate before ANY commit
-- Tests migrate WITH code (never leave tests behind)
-- Feature parity maintained during migration
-- Performance regression tests for critical paths
+### API Documentation Requirements
+Every public API must include:
+- **Purpose**: One-line description
+- **Parameters**: Type and description for each
+- **Returns**: Return type and description  
+- **Throws**: Error conditions and exception types
+- **Example**: Working, copy-paste ready code snippet
 
-### Framework Agnostic Core
+### Markdown Standards
+- **Blank lines after headings**: Required before lists/paragraphs
+- **Code fence languages**: Always specify (```typescript, ```bash)
+- **Consistent list markers**: Use `-` for unordered, `1.` for ordered
+- **JSöN capitalization**: Use "JSöN" in titles, ".jsön" for file extensions
 
-- `@orb-zone/dotted` has **zero framework dependencies**
-- Framework code isolated in `@orb-zone/surrounded`
-- Vue 3 composables optional (peer dep)
+## Memory & Design Documents
 
-## Memory & Documentation
+### Key Design Documents (`.specify/memory/`)
+- **`constitution.md`** - Project principles and constraints (master document)
+- **`storage-providers-design.md`** - StorageProvider interface, SurrealDBLoader
+- **`permissions-and-zod-integration.md`** - Permission detection, Zod integration
+- **`variant-system-design.md`** - Variant resolution algorithm
+- **`surrealdb-vue-vision.md`** - Grand vision for SurrealDB + Vue integration
 
-### Key Files (Read These)
-
-| File | Purpose | Location |
-|------|---------|----------|
-| Constitution | Core principles | `.specify/memory/constitution.md` |
-| Migration Plan | v2 architecture | `.specify/memory/active/monorepo-migration-plan.md` |
-| Migration Tasks | Implementation steps | `.specify/memory/active/monorepo-migration-tasks.md` |
-| Session Context | Current work | `.specify/memory/active/current-session.md` |
-
-### Design Documents
-
-Located in `.specify/memory/`:
-
-- `variant-system-design.md` - How variants work
-- `storage-providers-design.md` - Loader abstraction
-- `permissions-and-zod-integration.md` - Permission model
-- `surrealdb-vue-vision.md` - Grand vision doc
-
-### When to Add Documentation
-
-**Add new design doc** for:
+### When to Update Memory Files
 - Significant architectural decisions
-- New patterns or conventions
-- Breaking changes with migration needs
+- New design patterns or conventions
+- Breaking changes with migration requirements
 - Performance optimizations with measurable impact
 
-## Common Tasks
+## Agent Maintenance
 
-### Adding a Feature to Dotted
+### Updating Specialist Agents
+1. Review agent relevance quarterly
+2. Update constitutional references after amendments
+3. Add new domain patterns as they emerge
+4. Remove deprecated practices
+5. Sync with implementation changes
 
-1. Add test in `packages/dotted/test/`
-2. Implement in `packages/dotted/src/`
-3. Update exports in `packages/dotted/src/index.ts`
-4. Update docs
-5. Verify bundle size: `bun run build`
-6. Create changeset: `bun run changeset:add`
+### Creating New Specialist Agents
+1. Identify distinct domain with specialized knowledge
+2. Extract relevant constitutional principles
+3. Document domain-specific best practices
+4. Include examples and anti-patterns
+5. Add to `.specify/agents/README.md` registry
 
-### Adding a Feature to Surrounded
-
-1. Add test in `packages/surrounded/test/`
-2. Implement in `packages/surrounded/src/`
-3. Update exports in `packages/surrounded/src/index.ts`
-4. Update docs
-5. Verify bundle size
-6. Create changeset: `bun run changeset:add`
-
-### Migrating Code from jsön
-
-1. Understand code in jsön (reference)
-2. Determine target: dotted or surrounded?
-3. Copy code + tests together
-4. Update imports for workspace structure
-5. Verify tests pass: `bun test`
-6. Document changes
-7. Create changeset
-
-### Troubleshooting
-
-**Issue**: Tests in one package fail when importing other package
-
-**Solution**: Check `workspace:` protocol in package.json and tsconfig paths
-
-**Issue**: Build size exceeds limit
-
-**Solution**: Run `bun run build`, measure dist/ size, check tree-shaking
-
-**Issue**: Circular dependency detected
-
-**Solution**: Verify only surrounded → dotted, never reverse. Check imports.
-
-## Supporting Resources
-
-### In This Repository
-
-- **README.md** - Monorepo overview
-- **[packages/dotted/README.md](./packages/dotted/README.md)** - Core library docs
-- **[packages/surrounded/README.md](./packages/surrounded/README.md)** - Framework docs
-- **[MIGRATION.md](./MIGRATION.md)** - v1→v2 upgrade guide
-- **.specify/** - AI infrastructure & memory
-- **.claude/** - AI command workflows
-
-### From jsön (Reference)
-
-- **jsön/AGENTS.md** - Detailed project guidelines
-- **jsön/.specify/agents/** - Specialist agent definitions
-- **jsön/.specify/memory/constitution.md** - Core principles
-
-### External
-
-- **Bun Docs**: https://bun.sh/docs
-- **TypeScript**: https://www.typescriptlang.org/
-- **Changesets**: https://github.com/changesets/changesets
-
-## Session Checklist
-
-Start every session with:
-
-- [ ] Confirm working directory (`web-craft` or `jsön`?)
-- [ ] Read this file (project AGENTS.md)
-- [ ] Check `.specify/memory/active/current-session.md`
-- [ ] Understand scope: which package(s)?
-- [ ] Review specialist agents needed
-- [ ] Verify constitutional compliance
-- [ ] Confirm bundle size strategy
-
-## Support
-
-Use `/help` in OpenCode for:
-- Tool documentation
-- OpenCode commands
-- Bug reporting
+### Agent Quality Standards
+- **Domain expertise**: Clear specialization area
+- **Constitutional alignment**: No contradictions with core principles
+- **Practical guidance**: Actionable advice with examples
+- **Maintenance**: Regular updates to stay current
 
 ---
 
-**Last Updated**: 2025-10-20  
-**Part of**: @OZ namespace (see `/Users/trave/Code/@OZ/AGENTS.md`)  
-**Related**:
-- jsön project: `/Users/trave/Code/@OZ/jsön/AGENTS.md`
-- Namespace guidelines: `/Users/trave/Code/@OZ/AGENTS.md`
+**Last Updated**: 2025-10-19  
+**Related Files**: 
+- `.specify/agents/` - Specialist agent definitions
+- `.specify/memory/constitution.md` - Project constitution
+- `.specify/SLASH-COMMANDS-GUIDE.md` - Workflow commands
