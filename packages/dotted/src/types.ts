@@ -66,3 +66,9 @@ export interface StorageProvider {
   save(path: string, data: DottedObject): Promise<void>;
   exists(path: string): Promise<boolean>;
 }
+
+export interface ValidationOptions {
+  enabled: boolean;
+  validate: (path: string, value: any) => any;
+  validateResolver: (name: string, input: any[], output: any) => any;
+}
