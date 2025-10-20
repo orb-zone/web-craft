@@ -1,0 +1,11 @@
+{
+  "name": "@orb-zone/dotted",
+  "version": "2.0.0",
+  "exports": {
+    ".": "./dist/index.js",
+    "./zod": "./dist/plugins/zod.js"
+  },
+  "publish": {
+    "include": ["dist/", "package.json", "README.md"]
+  }
+}
