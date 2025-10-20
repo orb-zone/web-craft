@@ -1,0 +1,1 @@
+{"version":3,"file":"type-coercion.d.ts","sourceRoot":"","sources":["type-coercion.ts"],"names":[],"mappings":"AAAA,wBAAgB,GAAG,CAAC,GAAG,EAAE,OAAO,GAAG,MAAM,CAgBxC;AAED,wBAAgB,KAAK,CAAC,GAAG,EAAE,OAAO,GAAG,MAAM,CAe1C;AAED,wBAAgB,IAAI,CAAC,GAAG,EAAE,OAAO,GAAG,OAAO,CAoC1C;AAED,wBAAgB,IAAI,CAAC,GAAG,EAAE,MAAM,GAAG,OAAO,CAQzC;AAED,eAAO,MAAM,mBAAmB;;;;;CAK/B,CAAC"}
